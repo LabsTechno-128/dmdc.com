@@ -9,9 +9,10 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-20 items-center">
           <div className="flex-shrink-0 flex items-center">
-            <span className="text-2xl font-bold text-[#1e56a0]">CareDiagnostic</span>
+            <img src="/logo.jpeg" alt="Logo" className="h-10 mr-2" />
+            <span className="text-2xl font-bold text-[#1e56a0]">DMDC</span>
           </div>
-          
+
           <div className="hidden md:flex items-center space-x-8">
             <a href="#services" className="text-gray-600 hover:text-[#1e56a0] font-medium transition-colors">Services</a>
             <a href="#about" className="text-gray-600 hover:text-[#1e56a0] font-medium transition-colors">About</a>
