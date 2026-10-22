@@ -78,7 +78,7 @@ export const LandingProvider: FC<{ children: ReactNode }> = ({ children }) => {
     setDoctorsError(null);
     try {
       const doctorsList = await fetchDoctors();
-      setDoctors(doctorsList);
+      setDoctors(Array.isArray(doctorsList) ? doctorsList : []);
     } catch (err: any) {
       console.warn('[LandingProvider] Doctors fetch failed:', err);
       setDoctorsError(err?.message || 'Unable to retrieve specialists list');

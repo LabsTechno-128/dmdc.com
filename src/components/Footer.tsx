@@ -15,10 +15,101 @@ const LinkedinIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" /><rect x="2" y="9" width="4" height="12" /><circle cx="4" cy="4" r="2" /></svg>
 );
 
+import type { OpeningHourItem } from '../types/landing';
+
+interface OpeningHourSlot {
+  days: string;
+  hours: string;
+  isEmergency?: boolean;
+}
+
+function parseOpeningHours(raw?: OpeningHourItem[] | string | any, emergencyNote?: string): OpeningHourSlot[] {
+  let slots: OpeningHourSlot[] = [];
+
+  if (Array.isArray(raw)) {
+    slots = raw.map((item) => {
+      if (typeof item === 'string') {
+        const colonIdx = item.indexOf(':');
+        const isTimeColon = /^\s*\d+[:.]\d+/.test(item);
+        if (colonIdx !== -1 && !isTimeColon) {
+          return {
+            days: item.slice(0, colonIdx).trim(),
+            hours: item.slice(colonIdx + 1).trim(),
+            isEmergency: false,
+          };
+        }
+        return { days: 'Visiting Hours', hours: item.trim(), isEmergency: false };
+      }
+      return {
+        days: item?.days || item?.day || 'Visiting Hours',
+        hours: item?.hours || item?.time || '',
+        isEmergency: Boolean(item?.isEmergency),
+      };
+    });
+  } else if (typeof raw === 'string' && raw.trim()) {
+    const lines = raw.split(/\r?\n/).map((l) => l.trim()).filter(Boolean);
+    if (lines.length > 1) {
+      slots = lines.map((line) => {
+        const colonIdx = line.indexOf(':');
+        const isTimeColon = /^\s*\d+[:.]\d+/.test(line);
+        if (colonIdx !== -1 && !isTimeColon) {
+          return {
+            days: line.slice(0, colonIdx).trim(),
+            hours: line.slice(colonIdx + 1).trim(),
+            isEmergency: false,
+          };
+        }
+        return { days: 'Visiting Hours', hours: line, isEmergency: false };
+      });
+    } else {
+      const line = raw.trim();
+      const colonIdx = line.indexOf(':');
+      const isTimeColon = /^\s*\d+[:.]\d+/.test(line);
+      if (colonIdx !== -1 && !isTimeColon) {
+        slots = [{
+          days: line.slice(0, colonIdx).trim(),
+          hours: line.slice(colonIdx + 1).trim(),
+          isEmergency: false,
+        }];
+      } else {
+        slots = [{
+          days: 'Visiting Hours',
+          hours: line,
+          isEmergency: false,
+        }];
+      }
+    }
+  } else if (typeof raw === 'object' && raw !== null) {
+    slots = [{
+      days: raw.days || raw.day || 'Visiting Hours',
+      hours: raw.hours || raw.time || '',
+      isEmergency: Boolean(raw.isEmergency),
+    }];
+  }
+
+  if (slots.length === 0) {
+    slots = [
+      { days: 'Monday - Friday', hours: '8:00 AM - 8:00 PM', isEmergency: false },
+      { days: 'Saturday', hours: '9:00 AM - 6:00 PM', isEmergency: false },
+    ];
+  }
+
+  if (emergencyNote && !slots.some((s) => s.isEmergency || s.days.toLowerCase().includes('emergency'))) {
+    slots.push({
+      days: 'Emergency Care',
+      hours: emergencyNote,
+      isEmergency: true,
+    });
+  }
+
+  return slots;
+}
+
 export default function Footer() {
   const { content } = useLanding();
-  const contact = content.contact;
+  const contact = content?.contact || ({} as any);
   const social = contact.socialLinks || {};
+  const openingHoursList = parseOpeningHours(contact.openingHours, contact.emergencyNote);
 
   return (
     <footer className="bg-gray-900 text-white pt-20 pb-10">
@@ -68,8 +159,13 @@ export default function Footer() {
           <div>
             <h3 className="text-lg font-semibold mb-6">Opening Hours</h3>
             <ul className="space-y-4">
-              {(contact.openingHours || []).map((slot, index) => (
-                <li key={index} className={`flex items-center justify-between text-sm ${index < contact.openingHours.length - 1 ? 'border-b border-white/10 pb-2' : ''}`}>
+              {openingHoursList.map((slot, index) => (
+                <li
+                  key={index}
+                  className={`flex items-center justify-between text-sm ${
+                    index < openingHoursList.length - 1 ? 'border-b border-white/10 pb-2' : ''
+                  }`}
+                >
                   <span className="text-gray-400">{slot.days}</span>
                   <span className={slot.isEmergency ? 'text-[#1e56a0] font-bold' : 'text-white font-medium'}>
                     {slot.hours}

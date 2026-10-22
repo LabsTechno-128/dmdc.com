@@ -85,7 +85,7 @@ export interface ContactContent {
   phone: string;
   email: string;
   emergencyNote: string;
-  openingHours: OpeningHourItem[];
+  openingHours: OpeningHourItem[] | string;
   socialLinks: SocialLinks;
   copyrightText: string;
 }

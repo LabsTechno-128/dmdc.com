@@ -40,7 +40,7 @@ export default function Services() {
         </div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {services.items.map((service, index) => (
+          {(Array.isArray(services?.items) ? services.items : []).map((service, index) => (
             <div 
               key={service.id || index}
               onClick={() => handleServiceClick(service)}

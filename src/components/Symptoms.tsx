@@ -49,7 +49,7 @@ export default function Symptoms() {
             </p>
 
             <ul className="space-y-4 mb-8">
-              {(about.reasons || []).map((reason, index) => (
+              {(Array.isArray(about?.reasons) ? about.reasons : typeof about?.reasons === 'string' ? [about.reasons] : []).map((reason, index) => (
                 <li key={index} className="flex items-start">
                   <CheckCircle2 className="w-6 h-6 text-[#1e56a0] flex-shrink-0 mr-3" />
                   <span className="text-gray-700 font-medium">{reason}</span>

@@ -2,7 +2,7 @@ import { useLanding } from '../context/LandingContext';
 
 export default function Stats() {
   const { content } = useLanding();
-  const stats = content.stats?.items || [];
+  const stats = Array.isArray(content?.stats?.items) ? content.stats.items : [];
 
   return (
     <section className="py-20 bg-[#1e56a0] relative overflow-hidden">

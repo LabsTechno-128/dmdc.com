@@ -27,7 +27,7 @@ export default function Articles() {
         </div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {(articles.items || []).map((article, index) => (
+          {(Array.isArray(articles?.items) ? articles.items : []).map((article, index) => (
             <div key={article.id || index} className="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group cursor-pointer border border-gray-100">
               <div className="relative h-48 overflow-hidden">
                 <SafeImage 
