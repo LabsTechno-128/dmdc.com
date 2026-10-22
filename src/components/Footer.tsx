@@ -1,4 +1,6 @@
+import React from 'react';
 import { MapPin, Phone, Mail } from 'lucide-react';
+import { useLanding } from '../context/LandingContext';
 
 const FacebookIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" /></svg>
@@ -14,6 +16,10 @@ const LinkedinIcon = (props: React.SVGProps<SVGSVGElement>) => (
 );
 
 export default function Footer() {
+  const { content } = useLanding();
+  const contact = content.contact;
+  const social = contact.socialLinks || {};
+
   return (
     <footer className="bg-gray-900 text-white pt-20 pb-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -21,29 +27,19 @@ export default function Footer() {
 
           {/* Brand Col */}
           <div className="space-y-6">
-            <span className="text-BASE font-bold text-white">Dr. Muazzam Medical Diagnostic Center</span>
+            <span className="text-base font-bold text-white block">
+              {contact.centerName || 'Dr. Muazzam Medical Diagnostic Center'}
+            </span>
             <p className="text-gray-400 leading-relaxed text-sm">
-              Providing world-class healthcare and accurate diagnostics. Your health and well-being are our top priorities.
+              {contact.description}
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="bg-white/10 p-2 rounded-full hover:bg-[#1e56a0] transition-colors"><FacebookIcon className="w-5 h-5" /></a>
-              <a href="#" className="bg-white/10 p-2 rounded-full hover:bg-[#1e56a0] transition-colors"><TwitterIcon className="w-5 h-5" /></a>
-              <a href="#" className="bg-white/10 p-2 rounded-full hover:bg-[#1e56a0] transition-colors"><InstagramIcon className="w-5 h-5" /></a>
-              <a href="#" className="bg-white/10 p-2 rounded-full hover:bg-[#1e56a0] transition-colors"><LinkedinIcon className="w-5 h-5" /></a>
+              <a href={social.facebook || '#'} target="_blank" rel="noopener noreferrer" className="bg-white/10 p-2 rounded-full hover:bg-[#1e56a0] transition-colors"><FacebookIcon className="w-5 h-5" /></a>
+              <a href={social.twitter || '#'} target="_blank" rel="noopener noreferrer" className="bg-white/10 p-2 rounded-full hover:bg-[#1e56a0] transition-colors"><TwitterIcon className="w-5 h-5" /></a>
+              <a href={social.instagram || '#'} target="_blank" rel="noopener noreferrer" className="bg-white/10 p-2 rounded-full hover:bg-[#1e56a0] transition-colors"><InstagramIcon className="w-5 h-5" /></a>
+              <a href={social.linkedin || '#'} target="_blank" rel="noopener noreferrer" className="bg-white/10 p-2 rounded-full hover:bg-[#1e56a0] transition-colors"><LinkedinIcon className="w-5 h-5" /></a>
             </div>
           </div>
-
-          {/* Quick Links */}
-          {/* <div>
-            <h3 className="text-lg font-semibold mb-6">Quick Links</h3>
-            <ul className="space-y-4">
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors text-sm">About Us</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors text-sm">Our Services</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors text-sm">Find a Doctor</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors text-sm">Book Appointment</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors text-sm">Health Articles</a></li>
-            </ul>
-          </div> */}
 
           {/* Contact Info */}
           <div>
@@ -51,15 +47,19 @@ export default function Footer() {
             <ul className="space-y-4">
               <li className="flex items-start space-x-3 text-sm text-gray-400">
                 <MapPin className="w-5 h-5 text-[#1e56a0] flex-shrink-0" />
-                <span>123 Health Avenue, Medical District, NY 10001</span>
+                <span>{contact.address}</span>
               </li>
               <li className="flex items-center space-x-3 text-sm text-gray-400">
                 <Phone className="w-5 h-5 text-[#1e56a0] flex-shrink-0" />
-                <span>+1 (555) 123-4567</span>
+                <a href={`tel:${contact.phone}`} className="hover:text-white transition-colors">
+                  {contact.phone}
+                </a>
               </li>
               <li className="flex items-center space-x-3 text-sm text-gray-400">
                 <Mail className="w-5 h-5 text-[#1e56a0] flex-shrink-0" />
-                <span>contact@DMDC.com</span>
+                <a href={`mailto:${contact.email}`} className="hover:text-white transition-colors">
+                  {contact.email}
+                </a>
               </li>
             </ul>
           </div>
@@ -68,25 +68,21 @@ export default function Footer() {
           <div>
             <h3 className="text-lg font-semibold mb-6">Opening Hours</h3>
             <ul className="space-y-4">
-              <li className="flex items-center justify-between text-sm border-b border-white/10 pb-2">
-                <span className="text-gray-400">Monday - Friday</span>
-                <span className="text-white font-medium">8:00 AM - 8:00 PM</span>
-              </li>
-              <li className="flex items-center justify-between text-sm border-b border-white/10 pb-2">
-                <span className="text-gray-400">Saturday</span>
-                <span className="text-white font-medium">9:00 AM - 6:00 PM</span>
-              </li>
-              <li className="flex items-center justify-between text-sm">
-                <span className="text-gray-400">Sunday</span>
-                <span className="text-[#1e56a0] font-bold">Emergency Only</span>
-              </li>
+              {(contact.openingHours || []).map((slot, index) => (
+                <li key={index} className={`flex items-center justify-between text-sm ${index < contact.openingHours.length - 1 ? 'border-b border-white/10 pb-2' : ''}`}>
+                  <span className="text-gray-400">{slot.days}</span>
+                  <span className={slot.isEmergency ? 'text-[#1e56a0] font-bold' : 'text-white font-medium'}>
+                    {slot.hours}
+                  </span>
+                </li>
+              ))}
             </ul>
           </div>
 
         </div>
 
         <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500">
-          <p>&copy; {new Date().getFullYear()} DMDC. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} {contact.copyrightText || 'DMDC. All rights reserved.'}</p>
           <div className="flex space-x-6 mt-4 md:mt-0">
             <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
             <a href="#" className="hover:text-white transition-colors">Terms of Service</a>

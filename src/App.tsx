@@ -6,21 +6,75 @@ import Stats from './components/Stats';
 import Experts from './components/Experts';
 import Articles from './components/Articles';
 import Footer from './components/Footer';
+import AppointmentModal from './components/AppointmentModal';
+import SectionErrorBoundary from './components/SectionErrorBoundary';
+import SEOHead from './components/SEOHead';
+import { LandingProvider, useLanding } from './context/LandingContext';
+
+function LandingPageContent() {
+  const { seo, content } = useLanding();
+  const visibility = content.sectionVisibility || {
+    hero: true,
+    services: true,
+    about: true,
+    stats: true,
+    doctors: true,
+    articles: true,
+    appointment: true,
+  };
+
+  return (
+    <div className="min-h-screen bg-white text-slate-900 font-sans selection:bg-blue-100 selection:text-blue-900">
+      <SEOHead seo={seo} />
+      <Navbar />
+      <main>
+        {visibility.hero && (
+          <SectionErrorBoundary fallbackTitle="Hero section is unavailable">
+            <Hero />
+          </SectionErrorBoundary>
+        )}
+
+        {visibility.services && (
+          <SectionErrorBoundary fallbackTitle="Services section is unavailable">
+            <Services />
+          </SectionErrorBoundary>
+        )}
+
+        {visibility.about && (
+          <SectionErrorBoundary fallbackTitle="About section is unavailable">
+            <Symptoms />
+          </SectionErrorBoundary>
+        )}
+
+        {visibility.stats && (
+          <SectionErrorBoundary fallbackTitle="Statistics section is unavailable">
+            <Stats />
+          </SectionErrorBoundary>
+        )}
+
+        {visibility.doctors && (
+          <SectionErrorBoundary fallbackTitle="Specialists section is unavailable">
+            <Experts />
+          </SectionErrorBoundary>
+        )}
+
+        {visibility.articles && (
+          <SectionErrorBoundary fallbackTitle="Articles section is unavailable">
+            <Articles />
+          </SectionErrorBoundary>
+        )}
+      </main>
+      <Footer />
+      <AppointmentModal />
+    </div>
+  );
+}
 
 function App() {
   return (
-    <div className="min-h-screen bg-white text-slate-900 font-sans selection:bg-blue-100 selection:text-blue-900">
-      <Navbar />
-      <main>
-        <Hero />
-        <Services />
-        <Symptoms />
-        <Stats />
-        <Experts />
-        <Articles />
-      </main>
-      <Footer />
-    </div>
+    <LandingProvider>
+      <LandingPageContent />
+    </LandingProvider>
   );
 }
 

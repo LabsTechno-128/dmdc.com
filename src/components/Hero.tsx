@@ -1,6 +1,16 @@
 import { Calendar, ChevronRight } from 'lucide-react';
+import { useLanding } from '../context/LandingContext';
+import SafeImage from './SafeImage';
 
 export default function Hero() {
+  const { content, openAppointmentModal } = useLanding();
+  const hero = content.hero;
+
+  const scrollToAbout = () => {
+    const el = document.getElementById('about');
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <div className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-slate-50">
       {/* Decorative background elements */}
@@ -16,22 +26,29 @@ export default function Hero() {
           <div className="max-w-2xl">
             <div className="inline-flex items-center space-x-2 bg-blue-50 text-[#1e56a0] px-4 py-2 rounded-full font-medium text-sm mb-6">
               <span className="flex h-2 w-2 rounded-full bg-[#1e56a0]"></span>
-              <span>Modern Diagnostic & Healthcare Center</span>
+              <span>{hero.badge}</span>
             </div>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight mb-6">
-              Serving Your Health Needs Is Our <span className="text-[#1e56a0]">Priority</span>
+              {hero.title}{' '}
+              <span className="text-[#1e56a0]">{hero.highlightText}</span>
             </h1>
             <p className="text-lg text-gray-600 mb-8 leading-relaxed max-w-lg">
-              Experience world-class medical care with state-of-the-art diagnostic facilities and compassionate experts dedicated to your well-being.
+              {hero.subtitle}
             </p>
             
             <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-              <button className="flex items-center justify-center space-x-2 bg-[#1e56a0] text-white px-8 py-4 rounded-full font-medium hover:bg-blue-800 transition-all shadow-[0_4px_14px_0_rgba(30,86,160,0.39)] hover:shadow-[0_6px_20px_rgba(30,86,160,0.23)] hover:-translate-y-0.5">
+              <button 
+                onClick={() => openAppointmentModal()}
+                className="flex items-center justify-center space-x-2 bg-[#1e56a0] text-white px-8 py-4 rounded-full font-medium hover:bg-blue-800 transition-all shadow-[0_4px_14px_0_rgba(30,86,160,0.39)] hover:shadow-[0_6px_20px_rgba(30,86,160,0.23)] hover:-translate-y-0.5 cursor-pointer"
+              >
                 <Calendar className="w-5 h-5" />
-                <span>Make Appointment</span>
+                <span>{hero.ctaButtonText || 'Make Appointment'}</span>
               </button>
-              <button className="flex items-center justify-center space-x-2 bg-white text-gray-700 border border-gray-200 px-8 py-4 rounded-full font-medium hover:bg-gray-50 transition-all hover:border-gray-300">
-                <span>Learn More</span>
+              <button 
+                onClick={scrollToAbout}
+                className="flex items-center justify-center space-x-2 bg-white text-gray-700 border border-gray-200 px-8 py-4 rounded-full font-medium hover:bg-gray-50 transition-all hover:border-gray-300 cursor-pointer"
+              >
+                <span>{hero.secondaryButtonText || 'Learn More'}</span>
                 <ChevronRight className="w-5 h-5 text-gray-400" />
               </button>
             </div>
@@ -40,12 +57,12 @@ export default function Hero() {
           {/* Right Column */}
           <div className="relative lg:ml-auto">
             <div className="relative rounded-3xl overflow-hidden shadow-2xl">
-              <img 
-                src="https://images.unsplash.com/photo-1638202993928-7267aad84c31?auto=format&fit=crop&q=80&w=800&h=900" 
+              <SafeImage 
+                src={hero.heroImage} 
                 alt="Lead Medical Professional" 
                 className="w-full object-cover rounded-3xl"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-gray-900/40 to-transparent"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-gray-900/40 to-transparent pointer-events-none"></div>
             </div>
             
             {/* Floating Card */}
@@ -55,8 +72,8 @@ export default function Hero() {
                   <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path></svg>
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-gray-900">Dr. Anna Lindemann</p>
-                  <p className="text-xs text-gray-500">General Practitioner</p>
+                  <p className="text-sm font-semibold text-gray-900">{hero.doctorCardName}</p>
+                  <p className="text-xs text-gray-500">{hero.doctorCardRole}</p>
                 </div>
               </div>
             </div>
@@ -64,8 +81,8 @@ export default function Hero() {
             {/* Floating Badge */}
             <div className="absolute top-12 -right-4 sm:-right-8 bg-white p-4 rounded-2xl shadow-xl">
               <div className="flex flex-col items-center">
-                <span className="text-2xl font-bold text-[#1e56a0]">24/7</span>
-                <span className="text-xs text-gray-500 font-medium">Emergency Care</span>
+                <span className="text-2xl font-bold text-[#1e56a0]">{hero.emergencyBadgeNumber}</span>
+                <span className="text-xs text-gray-500 font-medium">{hero.emergencyBadgeText}</span>
               </div>
             </div>
 

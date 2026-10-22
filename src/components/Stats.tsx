@@ -1,15 +1,13 @@
+import { useLanding } from '../context/LandingContext';
+
 export default function Stats() {
-  const stats = [
-    { value: '2,500+', label: 'Happy Patients' },
-    { value: '16+', label: 'Lab Rooms' },
-    { value: '40+', label: 'Specialist Doctors' },
-    { value: '1,750+', label: 'Diagnostic Equipments' }
-  ];
+  const { content } = useLanding();
+  const stats = content.stats?.items || [];
 
   return (
     <section className="py-20 bg-[#1e56a0] relative overflow-hidden">
       {/* Decorative background pattern */}
-      <div className="absolute inset-0 opacity-10">
+      <div className="absolute inset-0 opacity-10 pointer-events-none">
         <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <pattern id="grid-pattern" width="40" height="40" patternUnits="userSpaceOnUse">
