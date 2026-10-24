@@ -112,43 +112,75 @@ export default function Footer() {
   const openingHoursList = parseOpeningHours(contact.openingHours, contact.emergencyNote);
 
   return (
-    <footer className="bg-gray-900 text-white pt-20 pb-10">
+    <footer className="bg-gray-900 text-white pt-14 sm:pt-20 pb-8 sm:pb-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-12 mb-12 sm:mb-16">
 
           {/* Brand Col */}
-          <div className="space-y-6">
-            <span className="text-base font-bold text-white block">
+          <div className="space-y-5 sm:space-y-6">
+            <span className="text-base sm:text-lg font-bold text-white block tracking-tight">
               {contact.centerName || 'Dr. Muazzam Medical Diagnostic Center'}
             </span>
-            <p className="text-gray-400 leading-relaxed text-sm">
+            <p className="text-gray-400 leading-relaxed text-sm max-w-sm">
               {contact.description}
             </p>
-            <div className="flex space-x-4">
-              <a href={social.facebook || '#'} target="_blank" rel="noopener noreferrer" className="bg-white/10 p-2 rounded-full hover:bg-[#1e56a0] transition-colors"><FacebookIcon className="w-5 h-5" /></a>
-              <a href={social.twitter || '#'} target="_blank" rel="noopener noreferrer" className="bg-white/10 p-2 rounded-full hover:bg-[#1e56a0] transition-colors"><TwitterIcon className="w-5 h-5" /></a>
-              <a href={social.instagram || '#'} target="_blank" rel="noopener noreferrer" className="bg-white/10 p-2 rounded-full hover:bg-[#1e56a0] transition-colors"><InstagramIcon className="w-5 h-5" /></a>
-              <a href={social.linkedin || '#'} target="_blank" rel="noopener noreferrer" className="bg-white/10 p-2 rounded-full hover:bg-[#1e56a0] transition-colors"><LinkedinIcon className="w-5 h-5" /></a>
+            <div className="flex flex-wrap gap-3">
+              <a 
+                href={social.facebook || '#'} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                aria-label="Facebook"
+                className="w-11 h-11 flex items-center justify-center bg-white/10 rounded-full hover:bg-[#1e56a0] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+              >
+                <FacebookIcon className="w-5 h-5" />
+              </a>
+              <a 
+                href={social.twitter || '#'} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                aria-label="Twitter / X"
+                className="w-11 h-11 flex items-center justify-center bg-white/10 rounded-full hover:bg-[#1e56a0] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+              >
+                <TwitterIcon className="w-5 h-5" />
+              </a>
+              <a 
+                href={social.instagram || '#'} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                aria-label="Instagram"
+                className="w-11 h-11 flex items-center justify-center bg-white/10 rounded-full hover:bg-[#1e56a0] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+              >
+                <InstagramIcon className="w-5 h-5" />
+              </a>
+              <a 
+                href={social.linkedin || '#'} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                aria-label="LinkedIn"
+                className="w-11 h-11 flex items-center justify-center bg-white/10 rounded-full hover:bg-[#1e56a0] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+              >
+                <LinkedinIcon className="w-5 h-5" />
+              </a>
             </div>
           </div>
 
           {/* Contact Info */}
           <div>
-            <h3 className="text-lg font-semibold mb-6">Contact Us</h3>
-            <ul className="space-y-4">
+            <h3 className="text-base sm:text-lg font-semibold mb-4 sm:mb-6 text-white tracking-tight">Contact Us</h3>
+            <ul className="space-y-3 sm:space-y-4">
               <li className="flex items-start space-x-3 text-sm text-gray-400">
-                <MapPin className="w-5 h-5 text-[#1e56a0] flex-shrink-0" />
-                <span>{contact.address}</span>
+                <MapPin className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
+                <span className="leading-relaxed">{contact.address}</span>
               </li>
               <li className="flex items-center space-x-3 text-sm text-gray-400">
-                <Phone className="w-5 h-5 text-[#1e56a0] flex-shrink-0" />
-                <a href={`tel:${contact.phone}`} className="hover:text-white transition-colors">
+                <Phone className="w-5 h-5 text-blue-400 flex-shrink-0" />
+                <a href={`tel:${contact.phone}`} className="hover:text-white transition-colors py-1 min-h-[36px] flex items-center break-all">
                   {contact.phone}
                 </a>
               </li>
               <li className="flex items-center space-x-3 text-sm text-gray-400">
-                <Mail className="w-5 h-5 text-[#1e56a0] flex-shrink-0" />
-                <a href={`mailto:${contact.email}`} className="hover:text-white transition-colors">
+                <Mail className="w-5 h-5 text-blue-400 flex-shrink-0" />
+                <a href={`mailto:${contact.email}`} className="hover:text-white transition-colors py-1 min-h-[36px] flex items-center break-all">
                   {contact.email}
                 </a>
               </li>
@@ -157,17 +189,17 @@ export default function Footer() {
 
           {/* Opening Hours */}
           <div>
-            <h3 className="text-lg font-semibold mb-6">Opening Hours</h3>
-            <ul className="space-y-4">
+            <h3 className="text-base sm:text-lg font-semibold mb-4 sm:mb-6 text-white tracking-tight">Opening Hours</h3>
+            <ul className="space-y-3 sm:space-y-4">
               {openingHoursList.map((slot, index) => (
                 <li
                   key={index}
-                  className={`flex items-center justify-between text-sm ${
-                    index < openingHoursList.length - 1 ? 'border-b border-white/10 pb-2' : ''
+                  className={`flex flex-wrap sm:flex-nowrap items-baseline justify-between gap-2 text-sm ${
+                    index < openingHoursList.length - 1 ? 'border-b border-white/10 pb-2.5' : ''
                   }`}
                 >
-                  <span className="text-gray-400">{slot.days}</span>
-                  <span className={slot.isEmergency ? 'text-[#1e56a0] font-bold' : 'text-white font-medium'}>
+                  <span className="text-gray-400 flex-shrink-0">{slot.days}</span>
+                  <span className={`text-right ${slot.isEmergency ? 'text-blue-400 font-bold' : 'text-white font-medium'} break-words`}>
                     {slot.hours}
                   </span>
                 </li>
@@ -177,11 +209,11 @@ export default function Footer() {
 
         </div>
 
-        <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500">
+        <div className="border-t border-white/10 pt-6 sm:pt-8 flex flex-col sm:flex-row justify-between items-center text-xs text-gray-400 gap-4 text-center sm:text-left">
           <p>&copy; {new Date().getFullYear()} {contact.copyrightText || 'DMDC. All rights reserved.'}</p>
-          <div className="flex space-x-6 mt-4 md:mt-0">
-            <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
+          <div className="flex flex-wrap justify-center sm:justify-end gap-6">
+            <a href="#" className="hover:text-white transition-colors py-1 min-h-[32px] flex items-center">Privacy Policy</a>
+            <a href="#" className="hover:text-white transition-colors py-1 min-h-[32px] flex items-center">Terms of Service</a>
           </div>
         </div>
       </div>

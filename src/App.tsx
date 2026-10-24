@@ -24,7 +24,7 @@ function LandingPageContent() {
   };
 
   return (
-    <div className="min-h-screen bg-white text-slate-900 font-sans selection:bg-blue-100 selection:text-blue-900">
+    <div className="min-h-screen w-full overflow-x-hidden bg-white text-slate-900 font-sans selection:bg-blue-100 selection:text-blue-900 relative">
       <SEOHead seo={seo} />
       <Navbar />
       <main>
